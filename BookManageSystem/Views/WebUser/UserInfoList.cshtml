@@ -1,0 +1,118 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+@using BookManageSystem.Models
+<div class="title">
+    User List
+</div>
+<div class="c">
+    @if (ViewData["userInfoList"] != null)
+    {
+        <br />
+        <table border="1" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    UserName
+                </th>
+                <th>
+                    Password
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Phone
+                </th>
+                <th>
+                    UserType
+                </th>
+                <th>
+                    CreateDate
+                </th>
+                <th>
+                    update
+                </th>
+                <th>
+                    delete
+                </th>
+            </tr>
+            @foreach (var userInfo in (List<Users>)ViewData["userInfoList"])
+            {
+                <tr>
+                    <td>
+                        @userInfo.ID
+                    </td>
+                    <td>
+                        @userInfo.UserName
+                    </td>
+                    <td>
+                        @userInfo.Password
+                    </td>
+                    <td>
+                        @userInfo.Age
+                    </td>
+                    <td>
+                        @userInfo.Phone
+                    </td>
+                    <td>
+                        @userInfo.UserType
+                    </td>
+                    <td>
+                        @userInfo.CreateDate
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" class="edits" ids="@userInfo.ID">update</a>
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" class="deletes" ids="@userInfo.ID">delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <span>Temporarily no data</span>
+    }
+</div>
+<link href="~/style/easyui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.easyui.min.js"></script>
+<script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+        $(".deletes").click(function () {
+            alert($(this).attr("ids"));
+            deleteInfo($(this).attr("ids"), $(this));
+        });
+
+        function deleteInfo(id, control) {
+            $.messager.confirm("prompt", "Sure you want to delete this record?", function (r) {
+                if (r) {
+                    $.post("/WebUser/DeleteUserInfo", { "id": id }, function (data) {
+                        if (data == "ok") {
+                            alert("aaa");
+                            $.messager.alert("prompt", "delete Success!", "info");
+                            location.reload();
+                        } else {
+                            alert("bbb");
+                            $.messager.alert("prompt", "delete fail!", "info");
+                        }
+                    });
+                }
+            });
+        }
+
+        $(".edits").click(function () {
+            location.href = "/WebUser/UserInfoEdit/?id=" + $(this).attr("ids");
+        });
+
+    })
+</script>
+
+

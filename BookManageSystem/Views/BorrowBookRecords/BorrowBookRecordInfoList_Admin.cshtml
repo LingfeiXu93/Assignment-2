@@ -1,0 +1,78 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+@using BookManageSystem.Models
+<div class="title">
+    BookRecord List
+</div>
+<div class="c">
+    @if (ViewData["bookRecordList"] != null)
+    {
+        <br />
+        <table border="1" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    User_Name
+                </th>
+                <th>
+                    Book_Name
+                </th>
+                <th>
+                    BorrowBookDate
+                </th>
+                <th>
+                    ReturnBookDate
+                </th>
+                <th>
+                    CreateDate
+                </th>
+                <th>
+                    States
+                </th>
+            </tr>
+            @foreach (var booksInfo in (List<BorrowBookRecord>)ViewData["bookRecordList"])
+            {
+                <tr>
+                    <td>
+                        @booksInfo.ID
+                    </td>
+                    <td>
+                        @booksInfo.User_Name
+                    </td>
+                    <td>
+                        @booksInfo.Book_Name
+                    </td>
+                    <td>
+                        @booksInfo.BorrowBookDate
+                    </td>
+                    <td>
+                        @if (@booksInfo.ReturnBookDate.ToString() == "1970/1/1 0:00:00")
+                        {
+                            <p></p>
+                        }
+                        else
+                        {
+                            <p>@booksInfo.ReturnBookDate</p>
+                        }
+                    </td>
+                    <td>
+                        @booksInfo.CreateDate
+                    </td>
+                    <td>
+                        @booksInfo.States
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <span>Temporarily no data</span>
+    }
+</div>
+
+

@@ -1,0 +1,85 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Book Manage System</title>
+    <link href="~/style/style.css" rel="stylesheet" />
+    <style>
+        .list ul {
+            list-style-type: none;
+            margin-left: 15px;
+        }
+
+            .list ul li {
+                margin-bottom: 5px;
+            }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div class="logo">
+            <img src="~/images/logo.jpg" width="962" height="147" />
+        </div>
+    </div>
+    <div class="line">
+    </div>
+    <div id="body">
+        <div class="navbar ">
+            <div class="bar">
+                <div class="title ">
+                    Welcome to Book Manage System
+                </div>
+                <div class="c">
+                    &nbsp;&nbsp;&nbsp;&nbsp;@Session["UserType"].ToString() ：@Session["UserName"].ToString() <br /> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;Now Date：@DateTime.Now.ToShortDateString()
+
+                </div>
+            </div>
+            <br />
+            <div class="bar list">
+                <div class="title ">
+                    Function List
+                </div>
+                <div class="c">
+                    <ul>
+                        @if (@Session["UserType"].ToString() == "admin")
+                        {
+                            <li><a href="/WebUser/UserInfoList" id="UserInfoList">UserInfoList</a> </li>
+                            <li><a href="/WebUser/UserInfoEdit" id="UserInfoEdit">UserManage</a> </li>
+                            <li><a href="/Books/BookInfoEdit" id="BookInfoEdit">BooksManage</a> </li>
+                            <li><a href="/Books/BooksInfoList" id="BooksInfoList">BooksList</a> </li>
+                            <li><a href="/BorrowBookRecords/BorrowBookRecordInfoList_Admin" id="BorrowBookRecordInfoList_Admin">BorrowBookRecordInfoList</a> </li>
+                        }
+                        else
+                        {
+                            <li><a href="/Books/BooksInfoList_User" id="BooksInfoList_User">BooksInfoListUser</a> </li>
+                            <li><a href="/BorrowBookRecords/BorrowBookRecordInfoList" id="BorrowBookRecordInfoList">BorrowBookRecordInfoList</a> </li>
+                        }
+                        <li><a href="/WebUser/Exit">Exit</a> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="table">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="line">
+    </div>
+    <div id="footer">
+        <p>
+            Book Manage System
+        </p>
+        <p>
+            Copy right 2006 - 2014 Book Manage Limited Company
+        </p>
+    </div>
+</body>
+</html>

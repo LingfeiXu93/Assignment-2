@@ -1,0 +1,153 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    function afterEdit(data) {
+        var serverData = data.split(':');
+        if (serverData[0] == "ok") {
+            alert(serverData[1]);
+            window.location.href = "/WebUser/UserInfoList";
+        } else if (serverData[0] == "no") {
+            alert(serverData[1]);
+        } else {
+            window.location.href = "/Error.html"
+        }
+    }
+
+    function ValidateUser() {
+        if (document.getElementById("UserName").value == "" || document.getElementById("UserName").value.length == 0) {
+            alert("UserName not null");
+            document.getElementById("UserName").focus();
+            return false;
+        }
+        if (document.getElementById("Password").vaule == "" || document.getElementById("Password").value.length == 0) {
+            alert("Password not null");
+            document.getElementById("Password").focus();
+            return false;
+        }
+        if (document.getElementById("Age").vaule == "" || document.getElementById("Age").value.length == 0) {
+            alert("Age not null");
+            document.getElementById("Age").focus();
+            return false;
+        }
+        if (document.getElementById("Phone").vaule == "" || document.getElementById("Phone").value.length == 0) {
+            alert("Phone not null");
+            document.getElementById("Phone").focus();
+            return false;
+        }
+    }
+
+    function afterRegist(data) {
+        var serverData = data.split(':');
+        if (serverData[0] == "ok") {
+            alert(serverData[1]);
+            window.location.href = "/WebUser/UserInfoList";
+        } else if (serverData[0] == "no") {
+            alert(serverData[1]);
+            return;
+        } else {
+            window.location.href = "/Error.html"
+        }
+
+    }
+
+</script>
+
+<div class="title">
+    User Manage
+</div>
+
+<div>
+    @if (ViewData["type"] == "update")
+    {
+        using (Ajax.BeginForm("EditUserInfo", "WebUser", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "afterEdit", OnBegin = "return ValidateUser()" }))
+        {
+            <input type="hidden" name="CreateDate" value="@Model.CreateDate" />
+            <input type="hidden" name="ID" value="@Model.ID" />
+            <table>
+                <tr style="height:50px;">
+                    <td>UserName</td>
+                    <td>
+                        <input type="text" name="UserName" id="UserName" value="@Model.UserName" />
+                    </td>
+                </tr>
+                <tr style="height:50px;">
+                    <td>Password</td>
+                    <td>
+                        <input type="text" name="Password" id="Password" value="@Model.Password" />
+                    </td>
+                </tr>
+                <tr style="height:50px;">
+                    <td>Age</td>
+                    <td>
+                        <input type="text" name="Age" id="Age" value="@Model.Age" />
+                    </td>
+                </tr>
+                <tr style="height:50px;">
+                    <td>Phone</td>
+                    <td>
+                        <input type="text" name="Phone" id="Phone" value="@Model.Phone" />
+                    </td>
+                </tr>
+                <tr style="height:50px;">
+                    <td colspan="2">
+                        <input type="submit" name="Update" value="Update" />
+                    </td>
+                </tr>
+            </table>
+        }
+    }
+    else
+    {
+        using (Ajax.BeginForm("RegistWebUser", "WebUser", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "afterRegist", OnBegin = "return ValidateUser()" }))
+        {
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tbody>
+                    <tr style="height:50px;">
+                        <td align="right" width="50%">
+                            UserName：
+                        </td>
+                        <td align="left">
+                            <input type="text" name="UserName" id="UserName" class="login-text" />
+
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="right">
+                            Password：
+                        </td>
+                        <td align="left">
+                            <input type="password" name="Password" id="Password" value="123" class="login-text" />
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="right">
+                            Age：
+                        </td>
+                        <td align="left">
+                            <input type="text" class="login-text" id="Age" name="Age" value="" />
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="right">
+                            Phone：
+                        </td>
+                        <td align="left">
+                            <input type="text" class="login-text" id="Phone" name="Phone" value="" />
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="center" colspan="2">
+                            <input type="submit" id="btnRegist" value="Add" class="login-btn" />
+                            <span id="errorMsg"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+</div>

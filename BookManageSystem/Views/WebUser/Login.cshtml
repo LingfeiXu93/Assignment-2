@@ -1,0 +1,150 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        function changeCheckCode() {
+            $("#img").attr("src", $("#img").attr("src") + 1);
+        }
+        function btnRegist() {
+            location.href = "/WebUser/Regist";
+        }
+        function afterLogin(data) {
+            var serverData = data.split(':');
+            var userNmae = $("#LoginCode").val();
+            if (serverData[0] == "ok") {
+                if (serverData[1] == "admin")
+                    window.location.href = "/WebUser/UserInfoList";
+                else
+                    window.location.href = "/Books/BooksInfoList_User";
+            } else if (serverData[0] == "no") {
+                alert(serverData[1]);
+                changeCheckCode();
+                location.href = "/WebUser/Login";
+            } else {
+                window.location.href = "/Error.html"
+            }
+
+        }
+
+        function ValidateLogin() {
+            if (document.getElementById("LoginCode").value == "" || document.getElementById("LoginCode").value.length == 0) {
+                alert("UserName not null");
+                document.getElementById("LoginCode").focus();
+                return false;
+            }
+            if (document.getElementById("LoginPwd").vaule == "" || document.getElementById("LoginPwd").value.length == 0) {
+                alert("Password not null");
+                document.getElementById("LoginPwd").focus();
+                return false;
+            }
+            if (document.getElementById("code").vaule == "" || document.getElementById("code").value.length == 0) {
+                alert("ValidateCode not null");
+                document.getElementById("code").focus();
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        @using (Ajax.BeginForm("CheckLogin", "WebUser", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "afterLogin", OnBegin = "return ValidateLogin()" }))
+        {
+            <table width="550" height="330" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td valign="top" background="~/images/loginbg.jpg">
+                        <table width="480" height="113" border="0" align="center" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="433" align="center" id="login">
+                            <tr>
+                                <td width="144" align="right">
+                                    <strong>UserName：</strong>
+                                </td>
+                                <td width="277">
+                                    <input type="text" name="LoginCode" id="LoginCode" class="login-text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <strong>Password：</strong>
+                                </td>
+                                <td>
+                                    <input type="password" name="LoginPwd" id="LoginPwd" value="123" class="login-text" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <strong>ValidateCode：</strong>
+                                </td>
+                                <td align="left">
+                                    <input type="text" class="login-text" id="code" name="vCode" value="" />
+                                    <img id="img" src="~/WebUser/ValidateCode/?id=1" style="height: 24px;" onclick="changeCheckCode(); return false;" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">
+                                    <strong>UserType：</strong>
+                                </td>
+                                <td>
+                                    <input type="radio" id="radUser" value="User" checked="checked" name="radUser" />user
+                                    <input type="radio" id="radAdminUser" value="Admin" name="radUser" />admin
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="text-align: left; padding-top: 32px;">
+                                    <input type="submit" id="btnLogin" value="Login" class="login-btn" />&nbsp;&nbsp;&nbsp;
+                                    <input type="button" id="btnRegist" value="Regist" onclick="location.href='/WebUser/Regist/'" />&nbsp;&nbsp;&nbsp;
+                                    <span id="errorMsg"></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    function afterEdit(data) {
+        var serverData = data.split(':');
+        if (serverData[0] == "ok") {
+            alert(serverData[1]);
+            window.location.href = "/Books/BooksInfoList";
+        } else if (serverData[0] == "no") {
+            alert(serverData[1]);
+        } else {
+            window.location.href = "/Error.html"
+        }
+    }
+
+    function ValidateBooks() {
+        if (document.getElementById("BookName").value == "" || document.getElementById("BookName").value.length == 0) {
+            alert("BookName not null");
+            document.getElementById("BookName").focus();
+            return false;
+        }
+    }
+
+    function afterAdd(data) {
+        var serverData = data.split(':');
+        if (serverData[0] == "ok") {
+            alert(serverData[1]);
+            window.location.href = "/Books/BooksInfoList";
+        } else if (serverData[0] == "no") {
+            alert(serverData[1]);
+            return;
+        } else {
+            window.location.href = "/Error.html"
+        }
+
+    }
+
+</script>
+
+<div class="title">
+    Book Manage
+</div>
+
+<div>
+    @if (ViewData["type"] == "update")
+    {
+        using (Ajax.BeginForm("UpdateBooks", "Books", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "afterEdit", OnBegin = "return ValidateBooks()" }))
+        {
+            <input type="hidden" name="CreateDate" value="@Model.CreateDate" />
+            <input type="hidden" name="ID" value="@Model.ID" />
+            <table>
+                <tr style="height:50px;">
+                    <td>UserName</td>
+                    <td>
+                        <input type="text" name="BookName" id="BookName" value="@Model.BookName" />
+                    </td>
+                </tr>
+                <tr style="height:50px;">
+                    <td colspan="2">
+                        <input type="submit" name="Update" value="Update" />
+                    </td>
+                </tr>
+            </table>
+        }
+    }
+    else
+    {
+        using (Ajax.BeginForm("AddBooks", "Books", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "afterAdd", OnBegin = "return ValidateBooks()" }))
+        {
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tbody>
+                 
+                    <tr style="height:50px;">
+                        <td align="right" width="50%">
+                            BookName：
+                        </td>
+                        <td align="left">
+                            <input type="text" name="BookName" id="BookName" />
+
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="center" colspan="2">
+                            <input type="submit" id="btnAdd" value="Add" />
+                            <span id="errorMsg"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+</div>

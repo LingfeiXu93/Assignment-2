@@ -1,0 +1,111 @@
+body
+{
+    background: url(../images/bk1.jpg);
+    margin: 0px;
+    padding: 0px;
+    font-size: 13px;
+}
+
+#header, #body, #footer
+{
+    width: 70%;
+    margin: 0px auto;
+    overflow: hidden;
+}
+
+#header .logo
+{
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#header .top
+{
+    float: right;
+}
+
+#body
+{
+}
+
+#body .navbar
+{
+    float: left;
+    width: 23%;
+    margin-right: 10px;
+}
+
+#body .navbar .notice
+{
+    margin-bottom: 10px;
+}
+
+#body .navbar .login
+{
+    height: 180px;
+}
+
+#body .login table
+{
+    margin: 10px;
+}
+
+#body .login table .input
+{
+    width: 120px;
+}
+
+#body .content
+{
+    float: right;
+    width: 75%;
+}
+
+
+#footer
+{
+    color: #666;
+    text-align: center;
+}
+
+.bar
+{
+    border: 2px solid #0099FF;
+}
+
+.bar .title
+{
+    background: url(../images/biao.gif) no-repeat #0099FF;
+    background-position: left top;
+    text-align: center;
+    margin: 1px;
+    padding: 2px;
+}
+
+.table
+{
+    border: medium double #00CCFF;
+    margin-bottom: 10px;
+}
+
+.table .title
+{
+    background: url(../images/index7.gif) no-repeat #66CCFF;
+    background-position: left top;
+    text-align: center;
+    font-size: 14px;
+}
+
+.line
+{
+    border-top: 1px solid gray;
+    height: 1px;
+    padding: 0px;
+    width: 70%;
+    margin: 3px auto 2px auto;
+}
+p
+{
+    padding-left:20px;
+    }

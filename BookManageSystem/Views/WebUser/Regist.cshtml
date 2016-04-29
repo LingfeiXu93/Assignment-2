@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <link href="~/style/style.css" rel="stylesheet" />
+    <script type="text/javascript">
+        function changeCheckCode() {
+            $("#img").attr("src", $("#img").attr("src") + 1);
+        }
+
+
+        function ValidateRegist() {
+            if (document.getElementById("UserName").value == "" || document.getElementById("UserName").value.length == 0) {
+                alert("UserName not null");
+                document.getElementById("UserName").focus();
+                return false;
+            }
+            if (document.getElementById("Password").vaule == "" || document.getElementById("Password").value.length == 0) {
+                alert("Password not null");
+                document.getElementById("Password").focus();
+                return false;
+            }
+            if (document.getElementById("Age").vaule == "" || document.getElementById("Age").value.length == 0) {
+                alert("Age not null");
+                document.getElementById("Age").focus();
+                return false;
+            }
+            if (document.getElementById("Phone").vaule == "" || document.getElementById("Phone").value.length == 0) {
+                alert("Phone not null");
+                document.getElementById("Phone").focus();
+                return false;
+            }
+        }
+
+        function afterRegist(data) {
+            var serverData = data.split(':');
+            if (serverData[0] == "ok") {
+                alert("User Success！");
+                window.location.href = "/WebUser/Login";
+            } else if (serverData[0] == "no") {
+                $("#errorMsg").text(serverData[1]);
+                changeCheckCode();
+                return;
+            } else {
+                window.location.href = "/Error.html"
+            }
+
+        }
+
+
+    </script>
+</head>
+<body>
+    @using (Ajax.BeginForm("RegistWebUser", "WebUser", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "afterRegist", OnBegin = "return ValidateRegist()" }))
+    {
+        <div id="header">
+            <div class="logo">
+                <img src="~/images/logo.jpg" width="962" height="147" />
+            </div>
+        </div>
+        <div class="line">
+        </div>
+        <div id="body">
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tbody>
+                    <tr style="height:50px;">
+                        <td align="center" colspan="2">
+                            <h2>
+                                User Regist
+                            </h2>
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="right" width="50%">
+                            UserName：
+                        </td>
+                        <td align="left">
+                            <input type="text" name="UserName" id="UserName" class="login-text" />
+
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="right">
+                            Password：
+                        </td>
+                        <td align="left">
+                            <input type="password" name="Password" id="Password" value="123" class="login-text" />
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="right">
+                            Age：
+                        </td>
+                        <td align="left">
+                            <input type="text" class="login-text" id="Age" name="Age" value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            Phone：
+                        </td>
+                        <td align="left">
+                            <input type="text" class="login-text" id="Phone" name="Phone" value="" />
+                        </td>
+                    </tr>
+                    <tr style="height:50px;">
+                        <td align="center" colspan="2">
+                            <input type="submit" id="btnRegist" value="Regist" class="login-btn" />
+                            <span id="errorMsg"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="line">
+        </div>
+        <div id="footer">
+            <p>
+                Book Manage System
+            </p>
+            <p>
+                Copy right 2006 - 2014 Book Manage Limited Company
+            </p>
+        </div>
+    }
+    </div>
+</body>
+</html>

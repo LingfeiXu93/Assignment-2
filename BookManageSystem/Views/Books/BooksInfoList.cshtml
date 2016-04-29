@@ -1,0 +1,91 @@
+﻿@{
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+@using BookManageSystem.Models
+<div class="title">
+    Books List
+</div>
+<div class="c">
+    @if (ViewData["booksInfoList"] != null)
+    {
+        <br />
+        <table border="1" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    BookName
+                </th>
+                <th>
+                    CreateDate
+                </th>
+                <th>
+                    States
+                </th>
+                <th>
+                    Operation
+                </th>
+            </tr>
+            @foreach (var booksInfo in (List<Books>)ViewData["booksInfoList"])
+            {
+                <tr>
+                    <td>
+                        @booksInfo.ID
+                    </td>
+                    <td>
+                        @booksInfo.BookName
+                    </td>
+                    <td>
+                        @booksInfo.CreateDate
+                    </td>
+                    <td>
+                        @booksInfo.States
+                    </td>
+                    <td>
+                        <a href="javascript:void(0)" class="edits" ids="@booksInfo.ID">update</a>
+                        <a href="javascript:void(0)" class="deletes" ids="@booksInfo.ID">delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <span>Temporarily no data</span>
+    }
+</div>
+<link href="~/style/easyui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.easyui.min.js"></script>
+<script src="~/Scripts/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".deletes").click(function () {
+            deleteInfo($(this).attr("ids"), $(this));
+        });
+
+        function deleteInfo(id, control) {
+            $.messager.confirm("prompt", "Sure you want to delete this record?", function (r) {
+                if (r) {
+                    $.post("/Books/DeleteBookInfo", { "id": id }, function (data) {
+                        if (data == "ok") {
+                            $.messager.alert("prompt", "delete Success!", "info");
+                            location.reload();
+                        } else {
+                            $.messager.alert("prompt", "delete fail!", "info");
+                        }
+                    });
+                }
+            });
+        }
+
+        $(".edits").click(function () {
+            location.href = "/Books/BookInfoEdit/?id=" + $(this).attr("ids");
+        });
+
+    })
+</script>
+
+
